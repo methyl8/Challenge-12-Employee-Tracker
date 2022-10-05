@@ -1,8 +1,8 @@
 module.exports = {
     host: 'localhost',
-    // MySQL username,
+    // your MySQL username,
     user: 'root',
-    // TODO: Add MySQL password
+    // your MySQL password
     password: 'root',
     database: 'employee_tracker_db'
 }

@@ -4,7 +4,9 @@ const mysql = require('mysql2');
 const mysqlPromises = require('mysql2/promise');
 const table = require('console.table');
 
+//database connection credentials 
 const connection = require(`./db/conn.js`);
+//main menu prompts
 const prompts = require(`./inq/prompts`);
 
 // Connect to database
@@ -12,13 +14,14 @@ const db = mysql.createConnection(connection);
 //for dynamic prompts
 let prompts2
 
+//display main menu
 const start = () => {
-    //    getRoles();
     inquirer
         .prompt(prompts.mainMenu)
         .then(handleMenu)
 }
 
+//handle main menu selection
 const handleMenu = (menuResponse) => {
     if (menuResponse.mainMenu == "allDepts") {
         db.query(`SELECT * FROM departments`, (err, results) => {
@@ -82,7 +85,6 @@ const handleMenu = (menuResponse) => {
     else if (menuResponse.mainMenu == "updEmpRole") {
         getUpdEmpPrompts().then(() => {
             inquirer.prompt(prompts2).then((resp => {
-                console.log(`UPDATE employees SET role_id = ${resp.empRole} WHERE id=${resp.empID}`);
                 db.query(`UPDATE employees SET role_id = ${resp.empRole} WHERE id=${resp.empID}`, (err, result) => {
                     if (err) console.log(err);
                     else {
@@ -98,6 +100,8 @@ const handleMenu = (menuResponse) => {
         process.exit();
     }
 }
+
+//build prompts2 for add employee
 const getAddEmpPrompts = async () => {
     const db2 = await mysqlPromises.createConnection(connection);
     const roles = await db2.execute(`SELECT id, title FROM roles`);
@@ -148,6 +152,7 @@ const setAddEmpPrompts = (roleOpts, mgrOpts) => {
     ]
 }
 
+//build prompts2 for update employee role
 const getUpdEmpPrompts = async () => {
     const db2 = await mysqlPromises.createConnection(connection);
     const names = await db2.execute(`SELECT id, CONCAT (first_name, ' ', last_name) as name FROM employees`);
@@ -189,6 +194,8 @@ const setUpdEmpPrompts = (empNames, empRoles) => {
         }
     ]
 }
+
+//build prompts2 for add role
 const getAddRolePrompts = async () => {
     const db2 = await mysqlPromises.createConnection(connection);
     const depts = await db2.execute(`SELECT id, name FROM departments`);
