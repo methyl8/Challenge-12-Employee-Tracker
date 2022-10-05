@@ -15,5 +15,11 @@ INSERT INTO roles(title, salary, department_id) VALUES
     ("Lawyer", 190000, 4);
 
 INSERT INTO employees(first_name, last_name, role_id, manager_id) VALUES
-    ("first", "last", 1, NULL),
-    ("first2", "last2", 1, 1);
+    ("John", "Doe", 1, NULL),
+    ("Steve", "Salesman", 2, 1),
+    ("Jane", "Dont", 3, NULL),
+    ("Eric", "Engineman", 4, 3),
+    ("Jerry", "Would", 5, NULL),
+    ("Freddy", "Financier", 6, 5),
+    ("Jenny", "Mite", 7, NULL),
+    ("Larry", "Lawman", 8, 7);
