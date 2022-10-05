@@ -35,7 +35,7 @@ const handleMenu = (menuResponse) => {
     else if (menuResponse.mainMenu == "allEmps") {
         db.query(`SELECT A.id, A.first_name, A.last_name, roles.title, roles.salary, departments.name, CONCAT (B.first_name,' ', B.last_name) AS manager 
             FROM (((employees A 
-            JOIN employees B ON A.manager_id = B.id)
+            LEFT JOIN employees B ON A.manager_id = B.id)
             JOIN roles ON A.role_id = roles.id)
             JOIN departments ON roles.department_id = departments.id)`, (err, results) => {
             console.log(table.getTable(results));
@@ -95,6 +95,7 @@ const handleMenu = (menuResponse) => {
     }
     else {
         console.log(`Goodbye.`)
+        process.exit();
     }
 }
 const getAddEmpPrompts = async () => {
